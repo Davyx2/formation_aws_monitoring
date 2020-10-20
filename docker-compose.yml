@@ -90,6 +90,7 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/config:/etc/grafana
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
@@ -117,11 +118,11 @@ services:
     image: stefanprodan/caddy
     container_name: caddy
     ports:
-      - "3000:3000"
-      - "9090:9090"
-      - "9093:9093"
-      - "9091:9091"
-      - "8888:8080"
+      - "3001:3000"
+      - "9092:9090"
+      - "9094:9093"
+      - "9095:9091"
+      - "9096:8080"
     volumes:
       - ./caddy:/etc/caddy
     environment:
