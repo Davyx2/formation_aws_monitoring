@@ -19,12 +19,12 @@ route:
 receivers:
     - name: 'gmail-notifications'
       email_configs:
-          - to: durandelegba@gmail.com
-            from: durandelegba@gmail.com
+          - to: sd.wanoon@gmail.com
+            from: sd.wanoon@gmail.com
             smarthost: smtp.gmail.com:587
-            auth_username: durandelegba@gmail.com
-            auth_identity: durandelegba@gmail.com
-            auth_password: bxenglkgssadphqk
+            auth_username: sd.wanoon@gmail.com
+            auth_identity: sd.wanoon@gmail.com
+            auth_password: dpvrsdavid
             send_resolved: true
 
 
