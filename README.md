@@ -5,7 +5,7 @@ dockprom
 A monitoring solution for Docker hosts and containers with [Prometheus](https://prometheus.io/), [Grafana](http://grafana.org/), [cAdvisor](https://github.com/google/cadvisor),
 [NodeExporter](https://github.com/prometheus/node_exporter) and alerting with [AlertManager](https://github.com/prometheus/alertmanager).
 
-***If you're looking for the Docker Swarm version please go to [stefanprodan/swarmprom](https://github.com/stefanprodan/swarmprom)***
+***If you're looking for the Docker Swarm version please go to [stefanprodan/swarmprom](https://github.comMonitor/stefanprodan/swarmprom)***
 
 ## Install
 
@@ -35,7 +35,7 @@ Containers:
 
 ## Setup Grafana
 
-Navigate to `http://<host-ip>:3000` and login with user ***admin*** password ***admin***. You can change the credentials in the compose file or by supplying the `ADMIN_USER` and `ADMIN_PASSWORD` environment variables on compose up. The config file can be added directly in grafana part like this
+Navigate to `http:/Monitor/<host-ip>:3000` and login with user ***admin*** password ***admin***. You can change the credentials in the compose file or by supplying the `ADMIN_USER` and `ADMIN_PASSWORD` environment variables on compose up. The config file can be added directly in grafana part like this
 ```
 grafana:
   image: grafana/grafana:5.2.4
