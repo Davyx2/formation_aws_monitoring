@@ -31,7 +31,7 @@ services:
     #  - monitor-net
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.prometheus.rule=Host(`db.exnetparis.cloud`)"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.wanoon.com`)"
       - "traefik.http.routers.prometheus.entrypoints=websecure"
       - "traefik.http.routers.prometheus.tls.certresolver=mytlschallenge"
       - "traefik.tcp.services.prometheus.loadbalancer.server.port=9090"
@@ -49,7 +49,7 @@ services:
       - 9093
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.alertmanager.rule=Host(`api.exnetparis.cloud`)"
+      - "traefik.http.routers.alertmanager.rule=Host(`alertmanager.wanoon.com`)"
       - "traefik.http.routers.alertmanager.entrypoints=websecure"
       - "traefik.http.routers.alertmanager.tls.certresolver=mytlschallenge"
       - "traefik.tcp.services.alertmanager.loadbalancer.server.port=9093"
@@ -114,7 +114,7 @@ services:
     #  - monitor-net
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana.rule=Host(`web.exnetparis.cloud`)"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.wanoon.com`)"
       - "traefik.http.routers.grafana.entrypoints=websecure"
       - "traefik.http.routers.grafana.tls.certresolver=mytlschallenge"
       - "traefik.tcp.services.grafana.loadbalancer.server.port=3000"
