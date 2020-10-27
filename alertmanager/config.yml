@@ -1,30 +1,31 @@
-#route:
-#    receiver: 'slack'
-#
-#receivers:
-#    - name: 'slack'
-#      slack_configs:
-#          - send_resolved: true
-#            text: "{{ .CommonAnnotations.description }}"
-#            username: 'Prometheus'
-#            channel: '#<channel-name>'
-#            api_url: 'https://hooks.slack.com/services/<webhook-id>'
 
 #global:
 #resolve_timeout: 1m
 
 route:
-    receiver: 'gmail-notifications'
+    receiver: 'slack'
+#route:
+#    receiver: 'alertmanager'
+#receivers:
+#    - name: 'alertmanager'
+#      email_configs:
+#      - to: seidoudavid97@gmail.com
+#        from: seidoudavid97@gmail.com
+#        smarthost: smtp.gmail.com:587
+#        auth_username: seidoudavid97@gmail.com
+#        auth_identity: seidoudavid97@gmail.com
+#        auth_password: tzldivtuaxglkphj
+#        send_resolved: true
+
+#route:
+#    receiver: 'slack'
 
 receivers:
-    - name: 'gmail-notifications'
-      email_configs:
-          - to: sd.wanoon@gmail.com
-            from: sd.wanoon@gmail.com
-            smarthost: smtp.gmail.com:587
-            auth_username: sd.wanoon@gmail.com
-            auth_identity: sd.wanoon@gmail.com
-            auth_password: dpvrsdavid
-            send_resolved: true
-
+  - name: 'slack'
+    slack_configs:
+    - send_resolved: true
+      text: "{{ .CommonAnnotations.description }}"
+      username: 'Prometheus'
+      channel: '#monitoring'
+      api_url: 'https://hooks.slack.com/services/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'
 
