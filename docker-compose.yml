@@ -1,12 +1,8 @@
 version: '2.1'
 
 networks:
-  default:
-    external: 
-      name: traefik-network
-
- # monitor-net:
- #   driver: bridge
+  monitor-net:
+    driver: bridge
 
 volumes:
     prometheus_data: {}
@@ -30,8 +26,8 @@ services:
     restart: unless-stopped
     expose:
       - 9090
-    #networks:
-    #  - monitor-net
+    networks:
+      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
 
@@ -46,8 +42,8 @@ services:
     restart: unless-stopped
     expose:
       - 9093
-    #networks:
-    #  - monitor-net
+    networks:
+      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
 
@@ -66,8 +62,8 @@ services:
     restart: unless-stopped
     expose:
       - 9100
-    #networks:
-    #  - monitor-net
+    networks:
+      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
 
@@ -83,8 +79,8 @@ services:
     restart: unless-stopped
     expose:
       - 8080
-    #networks:
-    #  - monitor-net
+    networks:
+      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
 
@@ -102,8 +98,8 @@ services:
     restart: unless-stopped
     expose:
       - 3000
-    #networks:
-    #  - monitor-net
+    networks:
+      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
 
@@ -113,8 +109,8 @@ services:
     restart: unless-stopped
     expose:
       - 9091
-    #networks:
-    #  - monitor-net
+    networks:
+      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
 
@@ -133,7 +129,7 @@ services:
       - ADMIN_USER=${ADMIN_USER:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
     restart: unless-stopped
-    #networks:
-    #  - monitor-net
+    networks:
+      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
