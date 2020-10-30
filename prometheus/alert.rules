@@ -70,8 +70,35 @@ groups:
       summary: "Traefik down"
       description: "Container {{ $labels.name }} is down for more than 30 seconds."
   
+  - alert: Worksuite down on host
+    expr: absent(container_memory_usage_bytes{name="worksuite"})
+    for: 20s
+    labels:
+      severity: critical
+    annotations:
+      summary: "worksuite down"
+      description: "Container {{ $labels.name }} is down for more than 30 seconds."
+
+  - alert: Support-phpmyadmin down on host
+    expr: absent(container_memory_usage_bytes{name="support-phpmyadmin"})
+    for: 20s
+    labels:
+      severity: critical
+    annotations:
+      summary: "support-phpmyadmin down"
+      description: "Container {{ $labels.name }} is down for more than 30 seconds."
+  
+  - alert: mysqlsupport down on host
+    expr: absent(container_memory_usage_bytes{name="mysqlsupport"})
+    for: 20s
+    labels:
+      severity: critical
+    annotations:
+      summary: "mysqlsupport down"
+      description: "Container {{ $labels.name }} is down for more than 30 seconds."
+
   - alert: Minio Storage down on host
-    expr: absent(container_memory_usage_bytes{name="traefik"})
+    expr: absent(container_memory_usage_bytes{name="storage_minio_1"})
     for: 20s
     labels:
       severity: critical
@@ -89,7 +116,7 @@ groups:
       description: "Container {{ $labels.name }} is down for more than 30 seconds."
 
   - alert: Mongo express down on host
-    expr: absent(container_memory_usage_bytes{name="mongo"})
+    expr: absent(container_memory_usage_bytes{name="mongo-express"})
     for: 20s
     labels:
       severity: critical
