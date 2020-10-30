@@ -47,3 +47,13 @@
     errors stderr
     tls off
 }
+
+:9100 {
+    basicauth / {$ADMIN_USER} {$ADMIN_PASSWORD}
+    proxy / nodeexporter:9100 {
+            transparent
+        }
+
+    errors stderr
+    tls off
+}

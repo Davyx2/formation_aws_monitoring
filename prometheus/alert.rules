@@ -58,7 +58,6 @@ groups:
       description: "La memoire RAM est à 70 % de son utilisations sur le SERVEUR"
 
 
-
 - name: containers
   rules:
   - alert: Traefik down on host
@@ -96,6 +95,7 @@ groups:
     annotations:
       summary: "mysqlsupport down"
       description: "Container {{ $labels.name }} is down for more than 30 seconds."
+
 
   - alert: Minio Storage down on host
     expr: absent(container_memory_usage_bytes{name="storage_minio_1"})
