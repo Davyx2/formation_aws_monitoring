@@ -38,40 +38,88 @@ groups:
     annotations:
       summary: "Server storage is almost full"
       description: "Docker host storage usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."
-
-- name: containers
-  rules:
-  - alert: api_down
-    expr: absent(container_memory_usage_bytes{name="api"})
-    for: 30s
+  
+  - alert: Insufficient disk space
+    expr: 100 - ((node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"} * 100) / node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"}) > 85
+    for: 10s
+    labels:
+      severity: dangerous
+    annotations:
+      summary: " Espaces disque Insuffisant"
+      description: "Vous aviez exceder 85 % de votre espaces disque"
+    
+  - alert: Memoire RAM Insuffisant
+    expr: ((node_memory_MemTotal_bytes - node_memory_MemFree_bytes - (node_memory_Buffers_bytes + node_memory_Cached_bytes)) / 1073741824 )* 100 / (node_memory_MemTotal_bytes/1073741824) > 70
+    for: 20s
     labels:
       severity: critical
     annotations:
-      summary: "api down"
-      description: "api container is down for more than 30 seconds."
+      summary: "Memoire RAM Insuffisant"
+      description: "La memoire RAM est à 70 % de son utilisations sur le SERVEUR"
 
 
-  - alert: jenkins_high_cpu
-    expr: sum(rate(container_cpu_usage_seconds_total{name="jenkins"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10
-    for: 30s
+
+- name: containers
+  rules:
+  - alert: Traefik down on host
+    expr: absent(container_memory_usage_bytes{name="traefik"})
+    for: 20s
     labels:
-      severity: warning
+      severity: critical
     annotations:
-      summary: "Jenkins high CPU usage"
-      description: "Jenkins CPU usage is {{ humanize $value}}%."
-
-  - alert: jenkins_high_memory
-    expr: sum(container_memory_usage_bytes{name="jenkins"}) > 1200000000
-    for: 30s
+      summary: "Traefik down"
+      description: "Container {{ $labels.name }} is down for more than 30 seconds."
+  
+  - alert: Minio Storage down on host
+    expr: absent(container_memory_usage_bytes{name="traefik"})
+    for: 20s
     labels:
-      severity: warning
+      severity: critical
     annotations:
-      summary: "Jenkins high memory usage"
-      description: "Jenkins memory consumption is at {{ humanize $value}}."
+      summary: "Minio down"
+      description: "Container {{ $labels.name }} is down for more than 30 seconds."
+
+  - alert: DB Storage down on host
+    expr: absent(container_memory_usage_bytes{name="mongo"})
+    for: 20s
+    labels:
+      severity: critical
+    annotations:
+      summary: "DB mongo down"
+      description: "Container {{ $labels.name }} is down for more than 30 seconds."
+
+  - alert: Mongo express down on host
+    expr: absent(container_memory_usage_bytes{name="mongo"})
+    for: 20s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Mongo express down"
+      description: "Container {{ $labels.name }} is down for more than 30 seconds."
+    
+  - alert: Container is killed absent on Host
+    expr: absent(container_tasks_state{container_label_com_docker_compose_project_config_files="docker-compose.yml",state="stopped"})
+    for: 3m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Container killed (instance {{ $labels.name }})"
+      description: "A container has disappeared {{ $labels.name }}."
+    
+    
+  - alert: Container (Compose) Too Many Restarts on Host
+    expr: count by (instance, name) (count_over_time(container_last_seen{name!="", container_label_restartcount!=""}[15m])) - 1 >= 2
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: " Restarting App check  the log to resolve this"
+      description: "Too many restarts ({{ $value }}) for container \"{{ $labels.name }}\""
+
 
 - name: AllInstances
   rules:
-  - alert: InstanceDown
+  - alert: An Instance of Stack monitoring down
     # Condition for alerting
     expr: up == 0
     for: 1m

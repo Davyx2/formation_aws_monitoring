@@ -230,6 +230,16 @@ Trigger an alert if a container is using more than 1.2GB of RAM for more than 30
       description: "Jenkins memory consumption is at {{ humanize $value}}."
 ```
 
+```yaml
+- alert: Container Killed
+    expr: count by (instance, name) (time() - (container_last_seen{name!="", container_label_restartcount!=""})) > 60
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Container killed instance {{ $labels.instance }}"
+      description: "{{ $value }} A container \"{{ $labels.name }}\" has disappeared"
+```
 ## Setup alerting
 
 The AlertManager service is responsible for handling alerts sent by Prometheus server.
