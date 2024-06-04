@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    expose:
+      - 80
+    restart: always
+  
+  mongo:
+    image: bitnami/mongodb
+    container_name: mongo
+    expose:
+      - 27017
+    environment:
+      - MONGODB_USERNAME=my_user
+      - MONGODB_PASSWORD=password123
+      - MONGODB_DATABASE=my_database
+      - MONGODB_ROOT_PASSWORD=password123
+    restart: always

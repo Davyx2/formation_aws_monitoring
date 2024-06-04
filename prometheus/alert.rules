@@ -51,52 +51,6 @@ groups:
 
 - name: containers
   rules:
-  - alert: Traefik down on host
-    expr: absent(container_memory_usage_bytes{name="traefik"})
-    for: 20s
-    labels:
-      severity: critical
-    annotations:
-      summary: "Traefik down"
-      description: "Container {{ $labels.name }} is down for more than 30 seconds."
-  
-  - alert: Worksuite down on host
-    expr: absent(container_memory_usage_bytes{name="worksuite"})
-    for: 20s
-    labels:
-      severity: critical
-    annotations:
-      summary: "worksuite down"
-      description: "Container {{ $labels.name }} is down for more than 30 seconds."
-
-  - alert: Support-phpmyadmin down on host
-    expr: absent(container_memory_usage_bytes{name="support-phpmyadmin"})
-    for: 20s
-    labels:
-      severity: critical
-    annotations:
-      summary: "support-phpmyadmin down"
-      description: "Container {{ $labels.name }} is down for more than 30 seconds."
-  
-  - alert: mysqlsupport down on host
-    expr: absent(container_memory_usage_bytes{name="mysqlsupport"})
-    for: 20s
-    labels:
-      severity: critical
-    annotations:
-      summary: "mysqlsupport down"
-      description: "Container {{ $labels.name }} is down for more than 30 seconds."
-
-
-  - alert: Minio Storage down on host
-    expr: absent(container_memory_usage_bytes{name="storage_minio_1"})
-    for: 20s
-    labels:
-      severity: critical
-    annotations:
-      summary: "Minio down"
-      description: "Container {{ $labels.name }} is down for more than 30 seconds."
-
   - alert: DB Storage down on host
     expr: absent(container_memory_usage_bytes{name="mongo"})
     for: 20s
@@ -106,25 +60,17 @@ groups:
       summary: "DB mongo down"
       description: "Container {{ $labels.name }} is down for more than 30 seconds."
 
-  - alert: Mongo express down on host
-    expr: absent(container_memory_usage_bytes{name="mongo-express"})
+
+  - alert: Nginx down on host
+    expr: absent(container_memory_usage_bytes{name="nginx"})
     for: 20s
     labels:
       severity: critical
     annotations:
-      summary: "Mongo express down"
+      summary: "Nginx down"
       description: "Container {{ $labels.name }} is down for more than 30 seconds."
-    
-  - alert: Container is killed absent on Host
-    expr: absent(container_tasks_state{container_label_com_docker_compose_project_config_files="docker-compose.yml",state="stopped"})
-    for: 3m
-    labels:
-      severity: critical
-    annotations:
-      summary: "Container killed (instance {{ $labels.name }})"
-      description: "A container has disappeared {{ $labels.name }}."
-    
-    
+
+
   - alert: Container (Compose) Too Many Restarts on Host
     expr: count by (instance, name) (count_over_time(container_last_seen{name!="", container_label_restartcount!=""}[15m])) - 1 >= 2
     for: 2m
@@ -140,7 +86,7 @@ groups:
   - alert: An Instance of Stack monitoring down
     # Condition for alerting
     expr: up == 0
-    for: 1m
+    for: 1m   
     # Annotation - additional informational labels to store more information
     annotations:
       title: 'Instance {{ $labels.instance }} down'
@@ -148,3 +94,5 @@ groups:
     # Labels - additional labels to be attached to the alert
     labels:
       severity: 'critical'
+
+#Sum of container : count(container_last_seen{container_label_com_docker_compose_container_number="1"})

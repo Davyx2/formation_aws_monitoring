@@ -1,6 +1,6 @@
 
-#global:
-#resolve_timeout: 1m
+# global:
+# resolve_timeout: 1m
 
 #route:
 #    receiver: 'alertmanager'
@@ -23,10 +23,10 @@ receivers:
     slack_configs:
     - send_resolved: true
       #text: "{{ .CommonAnnotations.description }}"
-      username: 'Prometheus'
-      channel: '#monitoring'
-      api_url: 'https://hooks.slack.com/services/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'
-      icon_url: https://wanoon.com/logo-wanoon.svg ##https://avatars3.githubusercontent.com/u/3380462
+      username: 'david.seidou'
+      channel: '#test'
+      api_url: 'https://hooks.slack.com/services/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'
+      icon_url: https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg
       title: |-
         [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} for {{ .CommonLabels.job }}
         {{- if gt (len .CommonLabels) (len .GroupLabels) -}}

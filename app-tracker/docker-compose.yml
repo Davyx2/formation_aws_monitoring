@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  app-tracker:
+    image: dav97/metricprom
+    container_name: app-tracker
+    ports:
+      - "8081:8081"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    restart: always
