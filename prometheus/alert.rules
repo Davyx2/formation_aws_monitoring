@@ -70,6 +70,14 @@ groups:
       summary: "Nginx down"
       description: "Container {{ $labels.name }} is down for more than 30 seconds."
 
+  - alert: oat-frontend down on host
+    expr: absent(container_memory_usage_bytes{name="oat-frontend"})
+    for: 20s
+    labels:
+      severity: critical
+    annotations:
+      summary: "oat-frontend down"
+      description: "Container {{ $labels.name }} is down for more than 30 seconds."
 
   - alert: Container (Compose) Too Many Restarts on Host
     expr: count by (instance, name) (count_over_time(container_last_seen{name!="", container_label_restartcount!=""}[15m])) - 1 >= 2

@@ -35,8 +35,19 @@ scrape_configs:
   #   scrape_interval: 5s
   #   metrics_path: /
   #   static_configs:
-  #     - targets: ['localhost:8081']
+  #     - targets: ['192.168.130.25:8081']
+  # - job_name: 'remote-nodeexporter'
+  #   scrape_interval: 5s
+  #   honor_labels: true
+  #   static_configs:
+  #     - targets: ['193.70.74.60:9100']
 
+
+  # - job_name: 'remote-cadvisor'
+  #   scrape_interval: 5s
+  #   honor_labels: true
+  #   static_configs:
+  #     - targets: ['193.70.74.60:8081']
 alerting:
   alertmanagers:
   - scheme: http

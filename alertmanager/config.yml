@@ -1,52 +1,52 @@
 
-# global:
-# resolve_timeout: 1m
-
-#route:
-#    receiver: 'alertmanager'
-#receivers:
-#    - name: 'alertmanager'
-#      email_configs:
-#      - to: seidoudavid97@gmail.com
-#        from: seidoudavid97@gmail.com
-#        smarthost: smtp.gmail.com:587
-#        auth_username: seidoudavid97@gmail.com
-#        auth_identity: seidoudavid97@gmail.com
-#        auth_password: tzldivtuaxglkphj
-#        send_resolved: true
+global:
+resolve_timeout: 1m
 
 route:
-    receiver: 'slack'
-
+   receiver: 'alertmanager'
 receivers:
-  - name: 'slack'
-    slack_configs:
-    - send_resolved: true
-      #text: "{{ .CommonAnnotations.description }}"
-      username: 'david.seidou'
-      channel: '#test'
-      api_url: 'https://hooks.slack.com/services/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'
-      icon_url: https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg
-      title: |-
-        [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} for {{ .CommonLabels.job }}
-        {{- if gt (len .CommonLabels) (len .GroupLabels) -}}
-          {{" "}}(
-          {{- with .CommonLabels.Remove .GroupLabels.Names }}
-            {{- range $index, $label := .SortedPairs -}}
-              {{ if $index }}, {{ end }}
-              {{- $label.Name }}="{{ $label.Value -}}"
-            {{- end }}
-          {{- end -}}
-          )
-        {{- end }}
-      text: >-
-        {{ range .Alerts -}}
-        *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+   - name: 'alertmanager'
+     email_configs:
+     - to: seidoudavid97@gmail.com
+       from: seidoudavid97@gmail.com
+       smarthost: smtp.gmail.com:587
+       auth_username: seidoudavid97@gmail.com
+       auth_identity: seidoudavid97@gmail.com
+       auth_password: tzldivtuaxglkphj
+       send_resolved: true
 
-        *Description:* {{ .Annotations.description }}
+# route:
+#     receiver: 'slack'
 
-        *Details:*
-          {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-          {{ end }}
-        {{ end }}
+# receivers:
+#   - name: 'slack'
+#     slack_configs:
+#     - send_resolved: true
+#       #text: "{{ .CommonAnnotations.description }}"
+#       username: 'david.seidou'
+#       channel: '#test'
+#       api_url: 'https://hooks.slack.com/services/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'
+#       icon_url: https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg
+#       title: |-
+#         [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} for {{ .CommonLabels.job }}
+#         {{- if gt (len .CommonLabels) (len .GroupLabels) -}}
+#           {{" "}}(
+#           {{- with .CommonLabels.Remove .GroupLabels.Names }}
+#             {{- range $index, $label := .SortedPairs -}}
+#               {{ if $index }}, {{ end }}
+#               {{- $label.Name }}="{{ $label.Value -}}"
+#             {{- end }}
+#           {{- end -}}
+#           )
+#         {{- end }}
+#       text: >-
+#         {{ range .Alerts -}}
+#         *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+
+#         *Description:* {{ .Annotations.description }}
+
+#         *Details:*
+#           {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+#           {{ end }}
+#         {{ end }}
 
